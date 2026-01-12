@@ -1,0 +1,53 @@
+﻿@media all and (max-width: 1025px) {
+    .navbar-inverse .navbar-brand {
+        padding-top: 10px;
+    }
+
+    .navbar-fixed-top, .navbar-fixed-bottom {
+        /*display:none;*/
+        position: inherit !important;
+    }
+
+    body{
+        padding-top: 0px !important;
+    }
+
+    .form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline {
+        margin-left: 20px;
+    }
+
+    .navbar-nav{
+        margin : 0px;
+    }
+
+    .navbar-brand{
+        margin-bottom:20px;
+    }
+
+    .add-product {
+        position: fixed;
+        top: 20px !important;
+        right: 10%;
+        left: 10%;
+        margin: 0;
+        width: 80% !important;
+        background: #FFFFFF;
+        max-height: calc(100vh);
+        overflow-y: auto;
+    }
+
+    .label-login {
+        width: 130px;
+        text-align: left !important;
+    }
+
+    /*.text-delete-user-align {
+        text-align: right !important;
+    }*/
+}
+
+@media all and (max-width: 991px) {
+    .text-delete-user-align {
+       text-align: left !important;
+    }
+}
