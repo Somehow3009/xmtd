@@ -1,4 +1,0 @@
-# HTTrack Website Copier Cookie File
-# This file format is compatible with Netscape cookies
-sale.fico-ytl.com	TRUE	/	FALSE	1999999999	__RequestVerificationToken	ZpcKUvokEEMSGH0StZsPN5mauoH_YjMkuEl_TMrTRpLMid4StOGraTrQyFkKJh0QlDWT2TMB91JcEv3ggchw2UDkfhOuDgbn-gj98WkelHA1
-
