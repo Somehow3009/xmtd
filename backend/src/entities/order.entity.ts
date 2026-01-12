@@ -66,7 +66,7 @@ export class Order {
   @Column({ nullable: true })
   approvedBy?: string;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ nullable: true })
   approvedAt?: Date;
 
   @Column({ nullable: true })

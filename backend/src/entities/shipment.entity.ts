@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from './order.entity';
 
 @Entity()
@@ -30,18 +30,18 @@ export class Shipment {
   @Column({ nullable: true })
   inspectedBy?: string;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ nullable: true })
   inspectedAt?: Date;
 
   @Column({ nullable: true })
   receivedBy?: string;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ nullable: true })
   receivedAt?: Date;
 
   @Column({ nullable: true })
   notes?: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt!: Date;
 }
