@@ -212,69 +212,84 @@ export function ShipmentsPanel({ orderId, canManage = false }: Props) {
           value={checkCode}
           onChange={(e) => setCheckCode(e.target.value)}
         />
-        <button className="btn" type="button" onClick={doCheckCode}>
+        <button className="btn btn--ghost" type="button" onClick={doCheckCode}>
           Kiểm tra
         </button>
       </div>
 
+      {message && <div className="hint" style={{ marginBottom: 8 }}>{message}</div>}
+
       {loading ? (
         <p>Đang tải...</p>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Mã</th>
-              <th>Đơn</th>
-              <th>Nơi nhận</th>
-              <th>Nơi dỡ</th>
-              <th>Xe/Ghe</th>
-              <th>Trạng thái</th>
-              <th>Duyệt</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shipments.map((s) => (
-              <tr key={s.id}>
-                <td>{s.code}</td>
-                <td>{s.order?.id || s.orderId}</td>
-                <td>{s.pickupLocation}</td>
-                <td>{s.dropoffLocation}</td>
-                <td>{s.vehicle}</td>
-                <td>
-                  <span className="pill">{s.status}</span>
-                </td>
-                <td>
-                  <span className="pill">{s.inspectionStatus || 'pending'}</span>
-                </td>
-                <td style={{ display: 'flex', gap: 6 }}>
-                  {canManage && (
-                    <>
-                      <button className="btn" type="button" onClick={() => onEdit(s)}>
-                        Sửa
-                      </button>
-                      <button className="btn" type="button" onClick={() => onCopy(s)}>
-                        Sao chép
-                      </button>
-                      <button className="btn" type="button" onClick={() => onInspect(s, true)}>
-                        Duyệt
-                      </button>
-                      <button className="btn" type="button" onClick={() => onInspect(s, false)}>
-                        Từ chối
-                      </button>
-                      <button className="btn" type="button" onClick={() => onReceive(s)}>
-                        Nhận hàng
-                      </button>
-                      <button className="btn" type="button" onClick={() => onDelete(s)}>
-                        Xóa
-                      </button>
-                    </>
-                  )}
-                </td>
+        <div className="table-wrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Đơn</th>
+                <th>Nơi nhận</th>
+                <th>Nơi dỡ</th>
+                <th>Xe/Ghe</th>
+                <th>Trạng thái</th>
+                <th>Duyệt</th>
+                <th>Hành động</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {shipments.map((s) => (
+                <tr key={s.id}>
+                  <td>{s.code}</td>
+                  <td>{s.order?.id || s.orderId}</td>
+                  <td>{s.pickupLocation}</td>
+                  <td>{s.dropoffLocation}</td>
+                  <td>{s.vehicle}</td>
+                  <td>
+                    <span className="pill" data-variant={s.status}>
+                      {s.status}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="pill" data-variant={s.inspectionStatus || 'pending'}>
+                      {s.inspectionStatus || 'pending'}
+                    </span>
+                  </td>
+                  <td>
+                    {canManage && (
+                      <div className="table-actions">
+                        <button className="btn btn--ghost" type="button" onClick={() => onEdit(s)}>
+                          Sửa
+                        </button>
+                        <button className="btn btn--ghost" type="button" onClick={() => onCopy(s)}>
+                          Sao chép
+                        </button>
+                        <button className="btn" type="button" onClick={() => onInspect(s, true)}>
+                          Duyệt
+                        </button>
+                        <button className="btn btn--ghost" type="button" onClick={() => onInspect(s, false)}>
+                          Từ chối
+                        </button>
+                        <button className="btn" type="button" onClick={() => onReceive(s)}>
+                          Nhận hàng
+                        </button>
+                        <button className="btn btn--danger" type="button" onClick={() => onDelete(s)}>
+                          Xóa
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {shipments.length === 0 && (
+                <tr>
+                  <td className="empty" colSpan={8}>
+                    Chưa có MSGH.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {canManage && (
@@ -326,13 +341,12 @@ export function ShipmentsPanel({ orderId, canManage = false }: Props) {
             onChange={(e) => setForm({ ...form, notes: e.target.value })}
           />
         </div>
-        {message && <div style={{ color: '#9bd8ff', marginBottom: 8 }}>{message}</div>}
         <button className="btn" type="submit">
           {editing ? 'Cập nhật MSGH' : 'Tạo MSGH'}
         </button>
         {editing && (
           <button
-            className="btn"
+            className="btn btn--ghost"
             type="button"
             style={{ marginLeft: 8 }}
             onClick={() => {

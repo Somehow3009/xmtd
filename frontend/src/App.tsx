@@ -65,21 +65,19 @@ export default function App() {
         <img src="/xmtd-logo.svg" alt="XMTĐ" />
         <div className="nav-title">
           {heroText}
-          <div style={{ fontSize: 11, opacity: 0.85 }}>Version SPA demo</div>
+          <div className="nav-subtitle">Version SPA demo</div>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+        <div className="nav-actions">
           {user && (
             <>
               <button
-                className="btn"
-                style={{ background: tab === 'orders' ? 'linear-gradient(135deg,#00b4f0,#0090c7)' : '#0c2a3d' }}
+                className={`btn ${tab === 'orders' ? 'btn--active' : 'btn--ghost'}`}
                 onClick={() => setTab('orders')}
               >
                 Đơn hàng/MSGH
               </button>
               <button
-                className="btn"
-                style={{ background: tab === 'create-order' ? 'linear-gradient(135deg,#00b4f0,#0090c7)' : '#0c2a3d' }}
+                className={`btn ${tab === 'create-order' ? 'btn--active' : 'btn--ghost'}`}
                 onClick={() => setTab('create-order')}
               >
                 Đặt hàng
@@ -87,15 +85,13 @@ export default function App() {
               {user.role === 'DVKH' && (
                 <>
                   <button
-                    className="btn"
-                    style={{ background: tab === 'reports' ? 'linear-gradient(135deg,#00b4f0,#0090c7)' : '#0c2a3d' }}
+                    className={`btn ${tab === 'reports' ? 'btn--active' : 'btn--ghost'}`}
                     onClick={() => setTab('reports')}
                   >
                     Báo cáo
                   </button>
                   <button
-                    className="btn"
-                    style={{ background: tab === 'customers' ? 'linear-gradient(135deg,#00b4f0,#0090c7)' : '#0c2a3d' }}
+                    className={`btn ${tab === 'customers' ? 'btn--active' : 'btn--ghost'}`}
                     onClick={() => setTab('customers')}
                   >
                     Khách hàng
@@ -103,8 +99,7 @@ export default function App() {
                 </>
               )}
               <button
-                className="btn"
-                style={{ background: tab === 'account' ? 'linear-gradient(135deg,#00b4f0,#0090c7)' : '#0c2a3d' }}
+                className={`btn ${tab === 'account' ? 'btn--active' : 'btn--ghost'}`}
                 onClick={() => setTab('account')}
               >
                 Tài khoản
@@ -112,7 +107,7 @@ export default function App() {
             </>
           )}
           {user ? (
-            <button className="btn" onClick={clear}>
+            <button className="btn btn--ghost" onClick={clear}>
               Đăng xuất
             </button>
           ) : null}

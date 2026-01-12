@@ -64,45 +64,58 @@ export function OrdersPanel({ onSelectOrder, selectedOrderId }: Props) {
       {loading ? (
         <p>Đang tải...</p>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Sản phẩm</th>
-              <th>SL</th>
-              <th>Ngày giao</th>
-              <th>Hết hạn</th>
-              <th>Trạng thái</th>
-              <th>Khóa</th>
-              <th>Duyệt</th>
-              <th>Hạn mức giữ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((o) => (
-              <tr
-                key={o.id}
-                style={{
-                  cursor: 'pointer',
-                  background: o.id === selectedOrderId ? 'rgba(0,180,240,0.08)' : undefined,
-                }}
-                onClick={() => onSelectOrder(o)}
-              >
-                <td>{o.id}</td>
-                <td>{o.product}</td>
-                <td>{o.quantity}</td>
-                <td>{o.deliveryDate}</td>
-                <td>{o.expiresAt || '-'}</td>
-                <td>
-                  <span className="pill">{o.status}</span>
-                </td>
-                <td>{o.isLocked ? 'Khóa' : ''}</td>
-                <td>{o.approvalStatus}</td>
-                <td>{o.creditHold?.toLocaleString('vi-VN')}</td>
+        <div className="table-wrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Sản phẩm</th>
+                <th>SL</th>
+                <th>Ngày giao</th>
+                <th>Hết hạn</th>
+                <th>Trạng thái</th>
+                <th>Khóa</th>
+                <th>Duyệt</th>
+                <th>Hạn mức giữ</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orders.map((o) => (
+                <tr
+                  key={o.id}
+                  className={o.id === selectedOrderId ? 'row-selected' : undefined}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onSelectOrder(o)}
+                >
+                  <td>{o.id}</td>
+                  <td>{o.product}</td>
+                  <td>{o.quantity}</td>
+                  <td>{o.deliveryDate}</td>
+                  <td>{o.expiresAt || '-'}</td>
+                  <td>
+                    <span className="pill" data-variant={o.status}>
+                      {o.status}
+                    </span>
+                  </td>
+                  <td>{o.isLocked ? 'Khóa' : ''}</td>
+                  <td>
+                    <span className="pill" data-variant={o.approvalStatus}>
+                      {o.approvalStatus}
+                    </span>
+                  </td>
+                  <td>{o.creditHold?.toLocaleString('vi-VN')}</td>
+                </tr>
+              ))}
+              {orders.length === 0 && (
+                <tr>
+                  <td className="empty" colSpan={9}>
+                    Chưa có đơn hàng.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

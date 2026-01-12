@@ -203,16 +203,16 @@ export function ReportsPanel() {
         <button className="btn" type="submit">
           Lọc báo cáo
         </button>
-        <button className="btn" type="button" onClick={downloadShipments}>
+        <button className="btn btn--ghost" type="button" onClick={downloadShipments}>
           Xuất MSGH CSV
         </button>
-        <button className="btn" type="button" onClick={downloadInvoices}>
+        <button className="btn btn--ghost" type="button" onClick={downloadInvoices}>
           Xuất hóa đơn CSV
         </button>
-        <button className="btn" type="button" onClick={() => downloadDetail('xlsx')}>
+        <button className="btn btn--ghost" type="button" onClick={() => downloadDetail('xlsx')}>
           Chi tiết xuất hàng XLSX
         </button>
-        <button className="btn" type="button" onClick={() => downloadDetail('pdf')}>
+        <button className="btn btn--ghost" type="button" onClick={() => downloadDetail('pdf')}>
           Chi tiết xuất hàng PDF
         </button>
       </form>
@@ -221,139 +221,179 @@ export function ReportsPanel() {
       ) : (
         <>
           <h4 style={{ marginTop: 12 }}>Hóa đơn & công nợ</h4>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Số HĐ</th>
-                <th>Khách hàng</th>
-                <th>Giá trị</th>
-                <th>Hạn</th>
-                <th>Trạng thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((i) => (
-                <tr key={i.invoiceNo}>
-                  <td>{i.invoiceNo}</td>
-                  <td>{i.customer}</td>
-                  <td>{i.amount.toLocaleString('vi-VN')}</td>
-                  <td>{i.dueDate}</td>
-                  <td>
-                    <span className="pill">{i.status}</span>
-                  </td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Số HĐ</th>
+                  <th>Khách hàng</th>
+                  <th>Giá trị</th>
+                  <th>Hạn</th>
+                  <th>Trạng thái</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {invoices.map((i) => (
+                  <tr key={i.invoiceNo}>
+                    <td>{i.invoiceNo}</td>
+                    <td>{i.customer}</td>
+                    <td>{i.amount.toLocaleString('vi-VN')}</td>
+                    <td>{i.dueDate}</td>
+                    <td>
+                      <span className="pill" data-variant={i.status}>
+                        {i.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {invoices.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={5}>
+                      Chưa có hóa đơn.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <h4 style={{ marginTop: 20 }}>Bảng kê mã số giao hàng</h4>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Mã</th>
-                <th>Sản phẩm</th>
-                <th>SL</th>
-                <th>Nơi nhận</th>
-                <th>Nơi dỡ</th>
-                <th>Ngày</th>
-                <th>Trạng thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shipments.map((s) => (
-                <tr key={s.code}>
-                  <td>{s.code}</td>
-                  <td>{s.product}</td>
-                  <td>{s.quantity}</td>
-                  <td>{s.pickupLocation}</td>
-                  <td>{s.dropoffLocation}</td>
-                  <td>{s.date}</td>
-                  <td>
-                    <span className="pill">{s.status}</span>
-                  </td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Sản phẩm</th>
+                  <th>SL</th>
+                  <th>Nơi nhận</th>
+                  <th>Nơi dỡ</th>
+                  <th>Ngày</th>
+                  <th>Trạng thái</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {shipments.map((s) => (
+                  <tr key={s.code}>
+                    <td>{s.code}</td>
+                    <td>{s.product}</td>
+                    <td>{s.quantity}</td>
+                    <td>{s.pickupLocation}</td>
+                    <td>{s.dropoffLocation}</td>
+                    <td>{s.date}</td>
+                    <td>
+                      <span className="pill" data-variant={s.status}>
+                        {s.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {shipments.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={7}>
+                      Chưa có MSGH.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <h4 style={{ marginTop: 20 }}>Bảng kê chi tiết xuất hàng</h4>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Mã</th>
-                <th>Sản phẩm</th>
-                <th>Loại XM</th>
-                <th>SL</th>
-                <th>Phương thức</th>
-                <th>Dịch vụ</th>
-                <th>Giao dịch</th>
-                <th>Nơi nhận</th>
-                <th>Nơi dỡ</th>
-                <th>Xe/Ghe</th>
-                <th>Vùng</th>
-                <th>Cửa hàng</th>
-                <th>Ngày</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shipmentDetails.map((s: any) => (
-                <tr key={s.code}>
-                  <td>{s.code}</td>
-                  <td>{s.product}</td>
-                  <td>{s.cementType}</td>
-                  <td>{s.quantity}</td>
-                  <td>{s.deliveryMethod}</td>
-                  <td>{s.serviceType}</td>
-                  <td>{s.transactionType}</td>
-                  <td>{s.pickupLocation}</td>
-                  <td>{s.dropoffLocation}</td>
-                  <td>{s.vehicle}</td>
-                  <td>{s.region}</td>
-                  <td>{s.store}</td>
-                  <td>{s.date}</td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Sản phẩm</th>
+                  <th>Loại XM</th>
+                  <th>SL</th>
+                  <th>Phương thức</th>
+                  <th>Dịch vụ</th>
+                  <th>Giao dịch</th>
+                  <th>Nơi nhận</th>
+                  <th>Nơi dỡ</th>
+                  <th>Xe/Ghe</th>
+                  <th>Vùng</th>
+                  <th>Cửa hàng</th>
+                  <th>Ngày</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {shipmentDetails.map((s: any) => (
+                  <tr key={s.code}>
+                    <td>{s.code}</td>
+                    <td>{s.product}</td>
+                    <td>{s.cementType}</td>
+                    <td>{s.quantity}</td>
+                    <td>{s.deliveryMethod}</td>
+                    <td>{s.serviceType}</td>
+                    <td>{s.transactionType}</td>
+                    <td>{s.pickupLocation}</td>
+                    <td>{s.dropoffLocation}</td>
+                    <td>{s.vehicle}</td>
+                    <td>{s.region}</td>
+                    <td>{s.store}</td>
+                    <td>{s.date}</td>
+                  </tr>
+                ))}
+                {shipmentDetails.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={13}>
+                      Chưa có dữ liệu chi tiết.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <h4 style={{ marginTop: 20 }}>Công nợ & hạn mức khách hàng</h4>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-            <button className="btn" type="button" onClick={() => downloadCredit('xlsx')}>
+          <div className="button-row" style={{ marginBottom: 8 }}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadCredit('xlsx')}>
               Xuất công nợ XLSX
             </button>
-            <button className="btn" type="button" onClick={() => downloadCredit('pdf')}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadCredit('pdf')}>
               Xuất công nợ PDF
             </button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Khách hàng</th>
-                <th>Hạn mức</th>
-                <th>Đã dùng</th>
-                <th>Còn lại</th>
-                <th>Nợ chưa thanh toán</th>
-              </tr>
-            </thead>
-            <tbody>
-              {creditRows.map((c: any) => (
-                <tr key={c.customer}>
-                  <td>{c.customer}</td>
-                  <td>{c.creditLimit.toLocaleString('vi-VN')}</td>
-                  <td>{c.creditUsed.toLocaleString('vi-VN')}</td>
-                  <td>{c.creditRemaining.toLocaleString('vi-VN')}</td>
-                  <td>{c.unpaidAmount.toLocaleString('vi-VN')}</td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Khách hàng</th>
+                  <th>Hạn mức</th>
+                  <th>Đã dùng</th>
+                  <th>Còn lại</th>
+                  <th>Nợ chưa thanh toán</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {creditRows.map((c: any) => (
+                  <tr key={c.customer}>
+                    <td>{c.customer}</td>
+                    <td>{c.creditLimit.toLocaleString('vi-VN')}</td>
+                    <td>{c.creditUsed.toLocaleString('vi-VN')}</td>
+                    <td>{c.creditRemaining.toLocaleString('vi-VN')}</td>
+                    <td>{c.unpaidAmount.toLocaleString('vi-VN')}</td>
+                  </tr>
+                ))}
+                {creditRows.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={5}>
+                      Chưa có dữ liệu công nợ.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <h4 style={{ marginTop: 20 }}>Thông tin hóa đơn khách hàng</h4>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-            <button className="btn" type="button" onClick={() => downloadCustomerInvoices('xlsx')}>
+          <div className="button-row" style={{ marginBottom: 8 }}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadCustomerInvoices('xlsx')}>
               Xuất hóa đơn XLSX
             </button>
-            <button className="btn" type="button" onClick={() => downloadCustomerInvoices('pdf')}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadCustomerInvoices('pdf')}>
               Xuất hóa đơn PDF
             </button>
           </div>
@@ -393,63 +433,85 @@ export function ReportsPanel() {
               Xuất hóa đơn thủ công
             </button>
           </form>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Số HĐ</th>
-                <th>Khách hàng</th>
-                <th>Giá trị</th>
-                <th>Hạn</th>
-                <th>Trạng thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customerInvoices.map((i: any) => (
-                <tr key={i.invoiceNo}>
-                  <td>{i.invoiceNo}</td>
-                  <td>{i.customer}</td>
-                  <td>{i.amount.toLocaleString('vi-VN')}</td>
-                  <td>{i.dueDate}</td>
-                  <td>{i.status}</td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Số HĐ</th>
+                  <th>Khách hàng</th>
+                  <th>Giá trị</th>
+                  <th>Hạn</th>
+                  <th>Trạng thái</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {customerInvoices.map((i: any) => (
+                  <tr key={i.invoiceNo}>
+                    <td>{i.invoiceNo}</td>
+                    <td>{i.customer}</td>
+                    <td>{i.amount.toLocaleString('vi-VN')}</td>
+                    <td>{i.dueDate}</td>
+                    <td>
+                      <span className="pill" data-variant={i.status}>
+                        {i.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {customerInvoices.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={5}>
+                      Chưa có hóa đơn khách hàng.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <h4 style={{ marginTop: 20 }}>Quản lý xuất nhập tồn</h4>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-            <button className="btn" type="button" onClick={() => downloadInventory('xlsx')}>
+          <div className="button-row" style={{ marginBottom: 8 }}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadInventory('xlsx')}>
               Xuất tồn kho XLSX
             </button>
-            <button className="btn" type="button" onClick={() => downloadInventory('pdf')}>
+            <button className="btn btn--ghost" type="button" onClick={() => downloadInventory('pdf')}>
               Xuất tồn kho PDF
             </button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Nhóm</th>
-                <th>Loại XM</th>
-                <th>SL (tấn)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {inventory.promotion.map((r: any) => (
-                <tr key={`promo-${r.cementType}`}>
-                  <td>Khuyến mại</td>
-                  <td>{r.cementType}</td>
-                  <td>{r.quantity}</td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nhóm</th>
+                  <th>Loại XM</th>
+                  <th>SL (tấn)</th>
                 </tr>
-              ))}
-              {inventory.consignment.map((r: any) => (
-                <tr key={`cons-${r.cementType}`}>
-                  <td>Gửi kho</td>
-                  <td>{r.cementType}</td>
-                  <td>{r.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {inventory.promotion.map((r: any) => (
+                  <tr key={`promo-${r.cementType}`}>
+                    <td>Khuyến mại</td>
+                    <td>{r.cementType}</td>
+                    <td>{r.quantity}</td>
+                  </tr>
+                ))}
+                {inventory.consignment.map((r: any) => (
+                  <tr key={`cons-${r.cementType}`}>
+                    <td>Gửi kho</td>
+                    <td>{r.cementType}</td>
+                    <td>{r.quantity}</td>
+                  </tr>
+                ))}
+                {inventory.promotion.length === 0 && inventory.consignment.length === 0 && (
+                  <tr>
+                    <td className="empty" colSpan={3}>
+                      Chưa có dữ liệu tồn kho.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>

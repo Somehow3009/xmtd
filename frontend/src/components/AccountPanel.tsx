@@ -48,26 +48,26 @@ export function AccountPanel({ user, onDistributorChange }: Props) {
         <div>
           <div className="form-row">
             <label>Tài khoản</label>
-            <div className="input" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="input input--readonly">
               {user.username}
             </div>
           </div>
           <div className="form-row">
             <label>Họ tên</label>
-            <div className="input" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="input input--readonly">
               {user.fullName}
             </div>
           </div>
           <div className="form-row">
             <label>Vai trò</label>
-            <div className="input" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="input input--readonly">
               {user.role}
             </div>
           </div>
           {user.distributor && (
             <div className="form-row">
               <label>Nhà phân phối</label>
-              <div className="input" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="input input--readonly">
                 {user.distributor}
               </div>
             </div>
@@ -86,10 +86,10 @@ export function AccountPanel({ user, onDistributorChange }: Props) {
                   </option>
                 ))}
               </select>
-              <button className="btn" type="button" style={{ marginTop: 8 }} onClick={updateDistributor}>
+              <button className="btn btn--ghost" type="button" style={{ marginTop: 8 }} onClick={updateDistributor}>
                 Chuyển NPP
               </button>
-              {distMessage && <div style={{ color: '#9bd8ff' }}>{distMessage}</div>}
+              {distMessage && <div className="hint">{distMessage}</div>}
             </div>
           )}
         </div>
@@ -109,13 +109,13 @@ export function AccountPanel({ user, onDistributorChange }: Props) {
             <input
               className="input"
               type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-              minLength={6}
-            />
-          </div>
-          {message && <div style={{ color: '#9bd8ff', marginBottom: 8 }}>{message}</div>}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+        </div>
+          {message && <div className="hint" style={{ marginBottom: 8 }}>{message}</div>}
           <button className="btn" type="submit">
             Đổi mật khẩu
           </button>

@@ -75,7 +75,7 @@ export function OrderCreatePanel({ user }: Props) {
   return (
     <div className="card" style={{ gridColumn: '1 / -1' }}>
       <h3>Đặt hàng (có kiểm tra hạn mức)</h3>
-      {message && <div style={{ color: '#9bd8ff', marginBottom: 8 }}>{message}</div>}
+      {message && <div className="hint" style={{ marginBottom: 8 }}>{message}</div>}
       <form
         onSubmit={submit}
         style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}
@@ -97,7 +97,7 @@ export function OrderCreatePanel({ user }: Props) {
             ))}
           </select>
           {creditRemaining !== undefined && (
-            <small>Hạn mức còn lại: {creditRemaining.toLocaleString('vi-VN')} VND</small>
+            <small className="hint">Hạn mức còn lại: {creditRemaining.toLocaleString('vi-VN')} VND</small>
           )}
         </div>
         <div className="form-row">
@@ -257,12 +257,12 @@ export function OrderCreatePanel({ user }: Props) {
         </button>
       </form>
 
-  {lastOrderId && user.role === 'DVKH' && (
-    <div style={{ marginTop: 12 }}>
-      <button className="btn" onClick={() => approve(true)}>
-        Duyệt đơn #{lastOrderId}
-      </button>
-          <button className="btn" style={{ marginLeft: 8 }} onClick={() => approve(false)}>
+      {lastOrderId && user.role === 'DVKH' && (
+        <div className="button-row" style={{ marginTop: 12 }}>
+          <button className="btn" onClick={() => approve(true)}>
+            Duyệt đơn #{lastOrderId}
+          </button>
+          <button className="btn btn--danger" onClick={() => approve(false)}>
             Từ chối đơn #{lastOrderId}
           </button>
         </div>

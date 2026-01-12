@@ -26,6 +26,13 @@ export function CustomersPanel() {
   const [account, setAccount] = useState({ customerId: 0, username: '', password: '' });
   const [resetForm, setResetForm] = useState({ username: '', password: '' });
   const [message, setMessage] = useState<string | null>(null);
+  const fieldLabels: Record<string, string> = {
+    name: 'Tên khách hàng',
+    taxCode: 'Mã số thuế',
+    address: 'Địa chỉ',
+    phone: 'Số điện thoại',
+    email: 'Email',
+  };
 
   const load = () => {
     fetchCustomers().then(setCustomers);
@@ -63,13 +70,13 @@ export function CustomersPanel() {
   return (
     <div className="card" style={{ gridColumn: '1 / -1' }}>
       <h3>Quản lý tài khoản đại lý cấp 1</h3>
-      {message && <div style={{ color: '#9bd8ff', marginBottom: 8 }}>{message}</div>}
+      {message && <div className="hint" style={{ marginBottom: 8 }}>{message}</div>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
         <form onSubmit={submitCustomer}>
           <h4>Tạo khách hàng</h4>
           {['name', 'taxCode', 'address', 'phone', 'email'].map((f) => (
             <div className="form-row" key={f}>
-              <label>{f}</label>
+              <label>{fieldLabels[f]}</label>
               <input
                 className="input"
                 value={(form as any)[f]}
@@ -159,50 +166,68 @@ export function CustomersPanel() {
       </div>
 
       <h4 style={{ marginTop: 16 }}>Danh sách tài khoản đã cấp</h4>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Tài khoản</th>
-            <th>Khách hàng</th>
-            <th>Link đăng nhập</th>
-          </tr>
-        </thead>
-        <tbody>
-          {accounts.map((a) => (
-            <tr key={a.id}>
-              <td>{a.username}</td>
-              <td>{a.customer?.name || a.fullName}</td>
-              <td>{window.location.origin}</td>
+      <div className="table-wrap">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Tài khoản</th>
+              <th>Khách hàng</th>
+              <th>Link đăng nhập</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {accounts.map((a) => (
+              <tr key={a.id}>
+                <td>{a.username}</td>
+                <td>{a.customer?.name || a.fullName}</td>
+                <td>{window.location.origin}</td>
+              </tr>
+            ))}
+            {accounts.length === 0 && (
+              <tr>
+                <td className="empty" colSpan={3}>
+                  Chưa có tài khoản nào.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <h4 style={{ marginTop: 16 }}>Danh sách khách hàng</h4>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên</th>
-            <th>MST</th>
-            <th>Địa chỉ</th>
-            <th>Hạn mức</th>
-            <th>Đã dùng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers.map((c) => (
-            <tr key={c.id}>
-              <td>{c.id}</td>
-              <td>{c.name}</td>
-              <td>{c.taxCode}</td>
-              <td>{c.address}</td>
-              <td>{c.creditLimit.toLocaleString('vi-VN')}</td>
-              <td>{c.creditUsed.toLocaleString('vi-VN')}</td>
+      <div className="table-wrap">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>MST</th>
+              <th>Địa chỉ</th>
+              <th>Hạn mức</th>
+              <th>Đã dùng</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {customers.map((c) => (
+              <tr key={c.id}>
+                <td>{c.id}</td>
+                <td>{c.name}</td>
+                <td>{c.taxCode}</td>
+                <td>{c.address}</td>
+                <td>{c.creditLimit.toLocaleString('vi-VN')}</td>
+                <td>{c.creditUsed.toLocaleString('vi-VN')}</td>
+              </tr>
+            ))}
+            {customers.length === 0 && (
+              <tr>
+                <td className="empty" colSpan={6}>
+                  Chưa có khách hàng.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
