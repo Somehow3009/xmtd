@@ -17,6 +17,7 @@ import { CatalogItem } from './entities/catalog-item.entity';
 import { Customer } from './entities/customer.entity';
 import { Price } from './entities/price.entity';
 import { SeedService } from './seed.service';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { SeedService } from './seed.service';
     InvoicesModule,
     MailModule,
   ],
+  controllers: [HealthController],
   providers: [SeedService],
 })
 export class AppModule {}
